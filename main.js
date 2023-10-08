@@ -11,7 +11,7 @@ fs.readFile('data.json', 'utf8', (err, data) => {
 
     for (const item of jsonData) {
       if (item.parent === 'BS3_BanksLiab') {
-        results.push(${item.txt}:${item.value});
+        results.push(`${item.txt}:${item.value}`);
       }
     }
 
@@ -26,4 +26,3 @@ fs.readFile('data.json', 'utf8', (err, data) => {
     console.error('Помилка обробки JSON:', error);
   }
 });
-  
