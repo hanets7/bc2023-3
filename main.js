@@ -1,28 +1,19 @@
-const fs = require('fs');
+const fs = require("fs");
 
-fs.readFile('data.json', 'utf8', (err, data) => {
-  if (err) {
-    console.error('Помилка читання файлу:', err);
-    return;
-  }
-  try {
-    const jsonData = JSON.parse(data);
-    const results = [];
+fs.readFile("data.json", (err, data) => {
+    if (err === null) {
+        let jsonData = JSON.parse(data);
+        const filteredData = jsonData.filter(entry => entry.parent === "BS3_BanksLiab");
+        const outputText = filteredData.map(entry => `${entry.txten}:${entry.value}`).join('\n');
 
-    for (const item of jsonData) {
-      if (item.parent === 'BS3_BanksLiab') {
-        results.push(`${item.txt}:${item.value}`);
-      }
+        fs.writeFile('output.txt', outputText, (err) => {
+            if (err === null) {
+                console.log("Дані записано у файл.");
+            } else {
+                console.log(err);
+            }
+        });
+    } else {
+        console.log(err);
     }
-
-    fs.writeFile('output.txt', results.join('\n'), (err) => {
-      if (err) {
-        console.error('Помилка запису у файл:', err);
-        return;
-      }
-      console.log('Результати записано у файл output.txt');
-    });
-  } catch (error) {
-    console.error('Помилка обробки JSON:', error);
-  }
 });
